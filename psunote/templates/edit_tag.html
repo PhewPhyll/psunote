@@ -5,20 +5,19 @@
     <a class="btn btn-primary" href="{{ url_for('index') }}">Home</a>
   </li>
   <li class="nav-item">
-    <a class="btn btn-primary" href="{{ url_for('allTags_view') }}">Back</a>
-  </li>
-  <li class="nav-item">
     <div class="btn btn-disagle">{{ tag.name }}</div>
   </li>
 </ul>
 <h3 class="my-2">Edit Tag</h3>
+<h3 class="mx-3">{{ tag.name }}</h3>
 <form action="" method="POST">
   {{ form.hidden_tag() }}
   <div class="form-group my-3">
     {{ form.name.label }}
-    {{ form.name(class_='form-control' )}}
+    {{ form.name(class_='form-control',placeholder="Please give me new name tag" )}}
   </div>
   <button type="submit" class="btn btn-primary">Edit</button>
+  <a class="btn btn-secondary" href="{{ url_for('allTags_view') }}">Cancel</a>
 </form>
 
 {% endblock %}
