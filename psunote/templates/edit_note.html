@@ -14,17 +14,15 @@
   <div class="form-group my-3">
     {{ form.title.label }}
     :  {{note.title}}
-    {{ form.title(class_='form-control',placeholder="Please give me new title" )}}
+    {{ form.title(class_='form-control')}}
   </div>
   <div class="form-group my-3">
     {{ form.description.label }}
-    :  {{note.description}}
-    {{ form.description(class_='form-control',placeholder="Please give me new name description") }}
+    {{ form.description(class_='form-control') }}
   </div>
   <div class="form-group my-3">
     {{ form.tags.label }}
-    
-    {{ form.tags(class_='form-control',placeholder="Please give me new name tag") }}
+    {{ form.tags(class_='form-control', value = present_tag) }}
   </div>
   <button type="submit" class="btn btn-primary">Edit</button>
   <a class="btn btn-secondary" href="{{ url_for('index') }}">Cancel</a>

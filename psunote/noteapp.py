@@ -92,45 +92,49 @@ def allTags_view():
 @app.route("/notes/edit/<int:noteId>", methods=["GET","POST"])
 def edit_note(noteId):
     db=models.db
-    note_to_edit = db.session.query(models.Note).get(noteId)
-    
+    note = db.session.query(models.Note).get(noteId)
+    present_tag = ""
 
-    form = forms.NoteForm(object=note_to_edit)
+    for tag in note.tags:
+            present_tag += tag.name + ","
+    form = forms.NoteForm(obj=note)
     if form.validate_on_submit():
-        note_to_edit.title = form.title.data
-        note_to_edit.description = form.description.data
-
+        note.title = form.title.data
+        note.description = form.description.data
+        present_tag = form.tags.data
         
-        note_to_edit_tags = []
+        note_tags = []
         for tag_name in form.tags.data:
             if tag_name !='':
-                tag = (db.session.execute(db.select(models.Tag).where(models.Tag.name == tag_name)).scalars().first())
+                tag = (db.session.execute(db.select(models.Tag).where(models.Tag.name == tag_name))
+                .scalars()
+                .first()
+                )
 
                 if not tag:
                     tag = models.Tag(name=tag_name)
                     db.session.add(tag)
 
-                note_to_edit_tags.append(tag)
+                note_tags.append(tag)
 
-        note_to_edit.tags = note_to_edit_tags
-        note_to_edit.updated_date = func.now()
+        note.tags = note_tags
+        note.updated_date = func.now()
 
         db.session.commit()
 
         return flask.redirect(flask.url_for("index"))
-    return flask.render_template("edit_note.html", form=form, note=note_to_edit)
+    return flask.render_template("edit_note.html", form=form, note=note, present_tag=present_tag)
 
 #Edit Tag
 @app.route("/tags/edit/<int:tagId>", methods=["GET","POST"])
 def edit_Tag(tagId):
     db = models.db
-
-    tag_to_edit = db.session.query(models.Tag).get(tagId)
+    current_tag = db.session.query(models.Tag).get(tagId)
     form = forms.TagForm()
     if form.validate_on_submit():
-        tag_to_edit.name = form.name.data
+        current_tag.name = form.name.data
         db.session.commit()
-    return flask.render_template("edit_tag.html",form = form, tag=tag_to_edit)
+    return flask.render_template("edit_tag.html",form = form, current_tag=current_tag)
 
 #Delete Note
 @app.route("/notes/delete/<int:noteId>", methods=["GET"])
