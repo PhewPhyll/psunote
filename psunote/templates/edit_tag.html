@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block body %}
+<ul class="nav justify-content-center" style="padding-top: 1em;">
+  <li class="nav-item">
+    <a class="btn btn-primary" href="{{ url_for('index') }}">Home</a>
+  </li>
+  <li class="nav-item">
+    <a class="btn btn-primary" href="{{ url_for('allTags_view') }}">Back</a>
+  </li>
+  <li class="nav-item">
+    <div class="btn btn-disagle">{{ tag.name }}</div>
+  </li>
+</ul>
+<h3 class="my-2">Edit Tag</h3>
+<form action="" method="POST">
+  {{ form.hidden_tag() }}
+  <div class="form-group my-3">
+    {{ form.name.label }}
+    {{ form.name(class_='form-control' )}}
+  </div>
+  <button type="submit" class="btn btn-primary">Edit</button>
+</form>
+
+{% endblock %}
+

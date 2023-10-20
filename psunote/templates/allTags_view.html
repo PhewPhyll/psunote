@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}All Tags{% endblock %}
+{% block body %}
+<ul class="nav justify-content-center" style="padding-top: 1em;">
+  <li class="nav-item">
+    <a class="btn btn-primary" href="{{ url_for('index') }}">Home</a>
+  </li>
+  <li class="nav-item">
+    <div class="btn btn-disagle">{{ tag }}</div>
+  </li>
+</ul>
+{% for tag in tags %}
+<div class="card my-3">
+  <div class="card-body">
+    <h4 class="">{{tag.name }}</h4>
+    <a class="btn btn-primary" href="{{url_for('edit_Tag',tagId=tag.id)}}">
+        Edit Tag
+      </a>
+      <a class="btn btn-secondary" href="{{url_for('delete_tag',tagId=tag.id)}}">
+        Delete Tag
+      </a>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}
+
